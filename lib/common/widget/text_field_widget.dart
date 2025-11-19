@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:uda_smart_home/themes/app_colors.dart';
-import 'package:uda_smart_home/themes/styles_text.dart';
-import 'package:uda_smart_home/utils/app_images.dart';
+
+import '../../themes/app_colors.dart';
+import '../../themes/styles_text.dart';
+import '../../utils/app_images.dart';
 
 class MainTextField extends StatefulWidget {
   MainTextField(

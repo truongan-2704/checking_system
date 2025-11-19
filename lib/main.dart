@@ -1,3 +1,4 @@
+import 'package:checking_system/screen/authentication/login_screen.dart';
 import 'package:checking_system/screen/monitor/monitor_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
@@ -17,19 +18,19 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home:  Login_Screen(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+  const MyHomePage();
 
-  final String title;
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -41,20 +42,23 @@ class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
   TextStyle(fontSize: 30, fontWeight: FontWeight.w600);
-  static  final List<Widget> _widgetOptions = <Widget>[
-    const Text(
-      'Home',
-      style: optionStyle,
-    ),
-    const LineChartCard(),
-    const Text(
-      'Chatbot',
-      style: optionStyle,
-    ),
-    const Text(
-      'Profile',
-      style: optionStyle,
-    ),
+    final List<Widget> _widgetOptions = <Widget>[
+      const Text(
+        'Home',
+        style: optionStyle,
+      ),
+      const Text(
+        'Monitor',
+        style: optionStyle,
+      ),
+      const Text(
+        'Chatbot',
+        style: optionStyle,
+      ),
+      const Text(
+        'Profile',
+        style: optionStyle,
+      ),
   ];
 
   @override
