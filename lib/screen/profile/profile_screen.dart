@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../themes/app_colors.dart';
-import 'change_pass_screen.dart';
+import 'change_password_screen.dart';
+import 'edit_profile_screen.dart';
 import 'widget/avater_circle.dart';
 
 
@@ -51,7 +52,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ),
               const Text(
-                "Nguyen Quynh",
+                "Nguyễn Văn An",
                 style: TextStyle(
                   color: Colors.black,
                   fontFamily: "Roboto",
@@ -83,7 +84,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         ),
         _widgetCardItem(
-          press: showLogoutDialog,
+          press: (){},
           widget: _widgetIntoCardNotify(
             text: "Thông báo",
             icon: "assets/icons/notify.svg",
@@ -198,7 +199,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const ChangePassScreen(),
+        builder: (context) => const EditProfileScreen(),
       ),
     );
   }

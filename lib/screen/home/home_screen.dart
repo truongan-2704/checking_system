@@ -1,6 +1,13 @@
+import 'package:checking_system/screen/home/report_screen.dart';
 import 'package:checking_system/screen/home/time_table_screen.dart';
+import 'package:checking_system/screen/profile/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+
+import '../monitor/monitor_screen.dart';
+import '../notify/notify_screen.dart';
+import 'attendance_history_screen.dart';
+import 'class_list_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -38,9 +45,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget slideshow_widget() {
     final List<String> imgList = [
+      "assets/images/test.jpg",
       "assets/images/hinh1.jfif",
-      "assets/images/hinh1.jfif",
-      "assets/images/hinh1.jfif",
+      "assets/images/test.jpg",
     ];
     return CarouselSlider(
       items: imgList.map((item) => ClipRRect(
@@ -91,6 +98,43 @@ class _HomeScreenState extends State<HomeScreen> {
         return InkWell(
           onTap: () {
             switch (item["label"]) {
+
+              // case "Điểm danh":
+              // // ví dụ mở màn Monitor
+              //   Navigator.push(
+              //     context,
+              //     MaterialPageRoute(builder: (_) => MonitorScreen()),
+              //   );
+              //   break;
+
+              case "Danh sách lớp":
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => ClassListScreen()),
+                );
+                break;
+
+              case "Lịch sử":
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => AttendanceHistoryScreen()),
+                );
+                break;
+
+              case "Thông báo":
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => NotificationScreen()),
+                );
+                break;
+
+              // case "Chat GV":
+              //   Navigator.push(
+              //     context,
+              //     MaterialPageRoute(builder: (_) => ChatScreen()),
+              //   );
+              //   break;
+
               case "T.khoá biểu":
                 Navigator.push(
                   context,
@@ -98,11 +142,25 @@ class _HomeScreenState extends State<HomeScreen> {
                 );
                 break;
 
-            // Bạn muốn mở màn nào cho các button khác thì thêm case tương ứng
+              case "Báo cáo":
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => ReportScreen()),
+                );
+                break;
+
+              // case "Cài đặt":
+              //   Navigator.push(
+              //     context,
+              //     MaterialPageRoute(builder: (_) => ProfileScreen()),
+              //   );
+              //   break;
+
               default:
                 debugPrint("Click: ${item["label"]}");
             }
           },
+
 
           borderRadius: BorderRadius.circular(16),
           child: Column(
