@@ -56,7 +56,8 @@ class _Login_ScreenState extends State<Login_Screen> {
             width: double.infinity,
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [Color(0xffee4c14), Color(0xffffc371)],
+                colors: [Color(0xFF0052D4), Color(0xFF65C7F7)],
+
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
@@ -78,7 +79,7 @@ class _Login_ScreenState extends State<Login_Screen> {
       style: TextStyle(
           fontSize: 30,
           fontWeight: FontWeight.bold,
-          color: Colors.deepOrange),
+          color: Colors.blue),
     );
   }
 
@@ -106,14 +107,14 @@ class _Login_ScreenState extends State<Login_Screen> {
 
           textInputAction: TextInputAction.next,
           decoration: InputDecoration(
-            prefixIcon: const Icon(Icons.mail,color: Colors.deepOrange,),
+            prefixIcon: const Icon(Icons.mail,color: Colors.blue,),
             contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
             hintText: "Email",
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
               borderSide: BorderSide.none,
             ),
-            fillColor: Colors.deepOrange[100],
+            fillColor: Colors.blue[100],
             filled: true,
           )),
     );
@@ -140,16 +141,16 @@ class _Login_ScreenState extends State<Login_Screen> {
           },
           textInputAction: TextInputAction.done,
           decoration: InputDecoration(
-            prefixIcon: const Icon(Icons.vpn_key, color: Colors.deepOrange,),
+            prefixIcon: const Icon(Icons.vpn_key, color: Colors.blue,),
             contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
             hintText: "Password",
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
               borderSide: BorderSide.none,
             ),
-            fillColor: Colors.deepOrange[100],
+            fillColor: Colors.blue[100],
             filled: true,
-            suffixIcon: const Icon(Icons.remove_red_eye, color: Colors.deepOrange,),
+            suffixIcon: const Icon(Icons.remove_red_eye, color: Colors.blue,),
           )),
     );
   }
@@ -164,7 +165,7 @@ class _Login_ScreenState extends State<Login_Screen> {
           borderRadius: BorderRadius.circular(8),
           child: Container(
             decoration: BoxDecoration(
-              color: Colors.deepOrange,
+              color: Colors.blue,
               borderRadius: BorderRadius.circular(8),
             ),
             height: 50,
@@ -204,7 +205,7 @@ class _Login_ScreenState extends State<Login_Screen> {
               child: const Text(
                 " Sign Up",
                 style: TextStyle(
-                  color: Colors.redAccent,
+                  color: Colors.blue,
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
                 ),

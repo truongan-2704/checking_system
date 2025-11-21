@@ -1,3 +1,4 @@
+import 'package:checking_system/screen/authentication/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
@@ -39,7 +40,11 @@ class _Register_ScreenState extends State<Register_Screen> {
                 SizedBox(
                   height: 20,
                 ),
-                button_register_widget()
+                button_register_widget(),
+                SizedBox(
+                  height: 10,
+                ),
+                signin_widget()
               ],
             ),
           ),
@@ -58,7 +63,7 @@ class _Register_ScreenState extends State<Register_Screen> {
             width: double.infinity,
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [Color(0xffee4c14), Color(0xffffc371)],
+                colors: [Color(0xFF0052D4), Color(0xFF65C7F7)],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
@@ -76,11 +81,11 @@ class _Register_ScreenState extends State<Register_Screen> {
 
   Widget title_widget () {
     return Text(
-      'SIGN IN',
+      'SIGN UP',
       style: TextStyle(
           fontSize: 30,
           fontWeight: FontWeight.bold,
-          color: Colors.deepOrange),
+          color: Colors.blue),
     );
   }
 
@@ -108,14 +113,14 @@ class _Register_ScreenState extends State<Register_Screen> {
 
           textInputAction: TextInputAction.next,
           decoration: InputDecoration(
-            prefixIcon: const Icon(Icons.mail,color: Colors.deepOrange,),
+            prefixIcon: const Icon(Icons.mail,color: Colors.blue,),
             contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
             hintText: "Email",
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
               borderSide: BorderSide.none,
             ),
-            fillColor: Colors.deepOrange[100],
+            fillColor: Colors.blue[100],
             filled: true,
           )),
     );
@@ -142,16 +147,16 @@ class _Register_ScreenState extends State<Register_Screen> {
           },
           textInputAction: TextInputAction.done,
           decoration: InputDecoration(
-            prefixIcon: const Icon(Icons.vpn_key, color: Colors.deepOrange,),
+            prefixIcon: const Icon(Icons.vpn_key, color: Colors.blue,),
             contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
             hintText: "Password",
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
               borderSide: BorderSide.none,
             ),
-            fillColor: Colors.deepOrange[100],
+            fillColor: Colors.blue[100],
             filled: true,
-            suffixIcon: const Icon(Icons.remove_red_eye, color: Colors.deepOrange,),
+            suffixIcon: const Icon(Icons.remove_red_eye, color: Colors.blue,),
           )),
     );
   }
@@ -177,16 +182,16 @@ class _Register_ScreenState extends State<Register_Screen> {
           },
           textInputAction: TextInputAction.done,
           decoration: InputDecoration(
-            prefixIcon: const Icon(Icons.vpn_key, color: Colors.deepOrange,),
+            prefixIcon: const Icon(Icons.vpn_key, color: Colors.blue,),
             contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
             hintText: "Confirm password",
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
               borderSide: BorderSide.none,
             ),
-            fillColor: Colors.deepOrange[100],
+            fillColor: Colors.blue[100],
             filled: true,
-            suffixIcon: const Icon(Icons.remove_red_eye, color: Colors.deepOrange,),
+            suffixIcon: const Icon(Icons.remove_red_eye, color: Colors.blue,),
           )),
     );
   }
@@ -200,7 +205,7 @@ class _Register_ScreenState extends State<Register_Screen> {
           borderRadius: BorderRadius.circular(8),
           child: Container(
             decoration: BoxDecoration(
-              color: Colors.deepOrange,
+              color: Colors.blue,
               borderRadius: BorderRadius.circular(8),
             ),
             height: 50,
@@ -241,6 +246,38 @@ class _Register_ScreenState extends State<Register_Screen> {
                 " Sign Up",
                 style: TextStyle(
                   color: Colors.redAccent,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
+            )
+          ]),
+    );
+  }
+
+  Widget signin_widget() {
+    return Container(
+      child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              "Already have an account?",
+              style: TextStyle(
+                  fontSize: 15,
+                  color: Colors.green
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.pop(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const Login_Screen()));
+              },
+              child: const Text(
+                " Sign In",
+                style: TextStyle(
+                  color: Colors.blue,
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
                 ),

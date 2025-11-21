@@ -1,5 +1,8 @@
+import 'package:checking_system/screen/home/home_screen.dart';
 import 'package:checking_system/screen/authentication/login_screen.dart';
 import 'package:checking_system/screen/monitor/monitor_screen.dart';
+import 'package:checking_system/screen/notify/notify_screen.dart';
+import 'package:checking_system/screen/profile/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
@@ -43,22 +46,10 @@ class _MyHomePageState extends State<MyHomePage> {
   static const TextStyle optionStyle =
   TextStyle(fontSize: 30, fontWeight: FontWeight.w600);
     final List<Widget> _widgetOptions = <Widget>[
-      const Text(
-        'Home',
-        style: optionStyle,
-      ),
-      const Text(
-        'Monitor',
-        style: optionStyle,
-      ),
-      const Text(
-        'Chatbot',
-        style: optionStyle,
-      ),
-      const Text(
-        'Profile',
-        style: optionStyle,
-      ),
+      HomeScreen(),
+      MonitorScreen(),
+      NotificationScreen(),
+      ProfileScreen()
   ];
 
   @override
@@ -68,12 +59,10 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: MainAppBar(
         title:"Camera on You",
         isShowBack: false,
-        onBackButtonPressed:() => _scaffoldKey.currentState?.openDrawer() ,
+        titleColor: Colors.blue,
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
           child: _widgetOptions.elementAt(_selectedIndex),
-        ),
       ),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
@@ -92,7 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
               rippleColor: Colors.grey[300]!,
               hoverColor: Colors.grey[100]!,
               gap: 8,
-              activeColor: Colors.red,
+              activeColor: Colors.blue,
               iconSize: 24,
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
               duration: const Duration(milliseconds: 400),
