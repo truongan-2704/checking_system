@@ -1,5 +1,4 @@
 import 'package:checking_system/screen/authentication/login_screen.dart';
-import 'package:checking_system/screen/profile/change_pass_screen.dart';
 import 'package:checking_system/screen/profile/widget/text_design.dart';
 import 'package:flutter/material.dart';
 
