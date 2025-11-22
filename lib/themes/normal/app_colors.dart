@@ -1,6 +1,6 @@
-import 'dart:ui';
 import 'package:flutter/widgets.dart';
-import 'package:uda_smart_home/themes/theme_constants.dart';
+
+import '../theme_constants.dart';
 
 Map<String, dynamic> appColors = {
   ColorConstants.turquoise900: const Color(0xff004E73),

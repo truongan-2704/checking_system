@@ -1,5 +1,5 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:uda_smart_home/themes/theme_constants.dart';
+import '../theme_constants.dart';
 
 Map<String, double> appDimens = {
   // Font size

@@ -1,10 +1,11 @@
 import 'package:hive/hive.dart';
 
-
 final LocalStorage = HiveLocalStorage();
 
 class HiveLocalStorage {
-  final box = Hive.box('AppLocalStorage');
+
+  // 👉 Không tạo box sớm
+  Box get box => Hive.box('AppLocalStorage');
 
   void open() {
     Hive.openBox('AppLocalStorage');
@@ -47,15 +48,15 @@ class HiveLocalStorage {
   }
 
   void clearUserInfo() {
-    LocalStorage.save(LocalStorageKey.name, '');
-    LocalStorage.save(LocalStorageKey.access_token, '');
-    LocalStorage.save(LocalStorageKey.refresh_token, '');
-    LocalStorage.save(LocalStorageKey.phoneNumber, '');
-    LocalStorage.save(LocalStorageKey.position, '');
-    LocalStorage.save(LocalStorageKey.departmentName, '');
-    LocalStorage.save(LocalStorageKey.departmentCode, '');
-    LocalStorage.save(LocalStorageKey.typeUser, '');
-    LocalStorage.save(LocalStorageKey.isLogin, false);
+    save(LocalStorageKey.name, '');
+    save(LocalStorageKey.access_token, '');
+    save(LocalStorageKey.refresh_token, '');
+    save(LocalStorageKey.phoneNumber, '');
+    save(LocalStorageKey.position, '');
+    save(LocalStorageKey.departmentName, '');
+    save(LocalStorageKey.departmentCode, '');
+    save(LocalStorageKey.typeUser, '');
+    save(LocalStorageKey.isLogin, false);
   }
 
   void saveUserInfo({
@@ -69,16 +70,16 @@ class HiveLocalStorage {
     String? typeUser,
     String? tokenType,
   }) {
-    LocalStorage.save(LocalStorageKey.name, name ?? '');
-    LocalStorage.save(LocalStorageKey.access_token, accessToken ?? '');
-    LocalStorage.save(LocalStorageKey.refresh_token, refreshToken ?? '');
-    LocalStorage.save(LocalStorageKey.phoneNumber, phoneNumber ?? '');
-    LocalStorage.save(LocalStorageKey.position, position ?? '');
-    LocalStorage.save(LocalStorageKey.departmentName, departmentName ?? '');
-    LocalStorage.save(LocalStorageKey.departmentCode, departmentCode ?? '');
-    LocalStorage.save(LocalStorageKey.typeUser, typeUser ?? '');
-    LocalStorage.save(LocalStorageKey.tokenType, tokenType ?? '');
-    LocalStorage.save(LocalStorageKey.isLogin, true);
+    save(LocalStorageKey.name, name ?? '');
+    save(LocalStorageKey.access_token, accessToken ?? '');
+    save(LocalStorageKey.refresh_token, refreshToken ?? '');
+    save(LocalStorageKey.phoneNumber, phoneNumber ?? '');
+    save(LocalStorageKey.position, position ?? '');
+    save(LocalStorageKey.departmentName, departmentName ?? '');
+    save(LocalStorageKey.departmentCode, departmentCode ?? '');
+    save(LocalStorageKey.typeUser, typeUser ?? '');
+    save(LocalStorageKey.tokenType, tokenType ?? '');
+    save(LocalStorageKey.isLogin, true);
   }
 }
 

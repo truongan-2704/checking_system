@@ -1,26 +1,85 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class AttendanceDetailScreen extends StatefulWidget {
   const AttendanceDetailScreen({super.key});
 
   @override
-  State<AttendanceDetailScreen> createState() => _AttendanceDetailScreenState();
+  State<AttendanceDetailScreen> createState() =>
+      _AttendanceDetailScreenState();
 }
 
 class _AttendanceDetailScreenState extends State<AttendanceDetailScreen> {
-  // Demo data – sau này bạn thay bằng data từ API
-  final List<Map<String, dynamic>> students = [
-    {"name": "Nguyễn An",      "status": "present"},
-    {"name": "Trần Bình",      "status": "present"},
-    {"name": "Lê Cẩm",         "status": "late"},
-    {"name": "Phạm Dung",      "status": "absent"},
-    {"name": "Hoàng Em",       "status": "excused"},
-    {"name": "Võ Gia",         "status": "present"},
-    {"name": "Đỗ Hà",          "status": "present"},
-    {"name": "Ngô Khang",      "status": "absent"},
-  ];
+  List<Map<String, dynamic>> students = [];
+  String filter = "all";
+  bool loading = true;
 
-  String filter = "all"; // all / present / absent / late / excused
+  int total = 0;
+  int present = 0;
+  int absent = 0;
+  int late = 0;
+  int excused = 0;
+
+  String updatedAt = "";
+  String attendanceImage = "";
+
+  @override
+  void initState() {
+    super.initState();
+    fetchAttendance();
+  }
+
+  Future<void> fetchAttendance() async {
+    setState(() => loading = true);
+
+    try {
+      final url = Uri.parse(
+        "https://project-nodejs-1-feg9.onrender.com/api/attendance/last",
+      );
+      final res = await http.get(url);
+
+      if (res.statusCode == 200) {
+        final data = jsonDecode(res.body);
+        final result = data["result"];
+
+        total = result["total"];
+        present = result["present"];
+        absent = result["absent"].length;
+        late = 0;
+        excused = 0;
+
+        // Convert UTC → Vietnam time (+7)
+        final rawTime = DateTime.parse(result["createdAt"]);
+        final vnTime = rawTime.add(const Duration(hours: 7));
+
+        // Format: HH:mm – DD/MM/YYYY
+        final hour = vnTime.hour.toString().padLeft(2, '0');
+        final minute = vnTime.minute.toString().padLeft(2, '0');
+
+        final day = vnTime.day.toString().padLeft(2, '0');
+        final month = vnTime.month.toString().padLeft(2, '0');
+        final year = vnTime.year;
+
+        updatedAt = "$hour:$minute – $day/$month/$year";
+
+        attendanceImage = result["image"];
+
+        students = [
+          ...result["absent"].map<Map<String, dynamic>>(
+                (name) => {
+              "name": name,
+              "status": "absent",
+            },
+          ),
+        ];
+      }
+    } catch (e) {
+      print("ERROR: $e");
+    }
+
+    setState(() => loading = false);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,72 +88,84 @@ class _AttendanceDetailScreenState extends State<AttendanceDetailScreen> {
       return s["status"] == filter;
     }).toList();
 
-    final total    = students.length;
-    final present  = students.where((s) => s["status"] == "present").length;
-    final absent   = students.where((s) => s["status"] == "absent").length;
-    final late     = students.where((s) => s["status"] == "late").length;
-    final excused  = students.where((s) => s["status"] == "excused").length;
-
     return Scaffold(
       appBar: AppBar(
         title: const Text("Chi tiết điểm danh hôm nay"),
         centerTitle: true,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.refresh),
+            onPressed: fetchAttendance,
+          ),
+        ],
       ),
-      body: Column(
+
+      body: loading
+          ? const Center(child: CircularProgressIndicator())
+          : Column(
         children: [
-          // Tóm tắt nhanh
+          // 🔵 OVERVIEW + IMAGE (Responsive)
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // 📌 LEFT — Overview Card
                 Expanded(
-                  child: Container(
-                    height: 200, // 🔥 cả 2 ô sẽ có chiều cao bằng nhau
-                    child: Card(
-                      elevation: 3,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              "Tổng quan",
-                              style: TextStyle(
+                  flex: 6,
+                  child: Card(
+                    elevation: 3,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            "Tổng quan",
+                            style: TextStyle(
                                 fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(height: 8),
-                            Text("Tổng sĩ số: $total học sinh"),
-                            Text("Có mặt: $present"),
-                            Text("Vắng: $absent"),
-                            Text("Đi muộn: $late"),
-                            Text("Nghỉ có phép: $excused"),
-                            const Spacer(), // 🔥 đẩy dòng cập nhật xuống cuối
-                            const Text(
-                              "Cập nhật lúc 07:35",
-                              style: TextStyle(fontSize: 12, color: Colors.grey),
-                            ),
-                          ],
-                        ),
+                                fontWeight: FontWeight.bold),
+                          ),
+                          const SizedBox(height: 8),
+                          Text("Tổng sĩ số: $total"),
+                          Text("Có mặt: $present"),
+                          Text("Vắng: $absent"),
+                          Text("Đi muộn: $late"),
+                          Text("Có phép: $excused"),
+                          const SizedBox(height: 10),
+                          Text(
+                            "Cập nhật: $updatedAt",
+                            style: const TextStyle(
+                                fontSize: 12, color: Colors.grey),
+                          ),
+                        ],
                       ),
                     ),
                   ),
                 ),
 
-                const SizedBox(width: 14),
+                const SizedBox(width: 12),
 
+                // 📌 RIGHT — Attendance Image
                 Expanded(
-                  child: SizedBox(
-                    height: 180, // 🔥 match height với ô Tổng quan
+                  flex: 4,
+                  child: AspectRatio(
+                    aspectRatio: 1, // hình vuông tự chia tỷ lệ
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(16),
-                      child: Image.asset(
-                        "assets/images/test.jpg",
+                      child: attendanceImage.isNotEmpty
+                          ? Image.network(
+                        "https://project-nodejs-1-feg9.onrender.com$attendanceImage",
                         fit: BoxFit.cover,
+                      )
+                          : Container(
+                        color: Colors.grey[200],
+                        child: const Center(
+                          child: Text("Không có ảnh"),
+                        ),
                       ),
                     ),
                   ),
@@ -103,7 +174,7 @@ class _AttendanceDetailScreenState extends State<AttendanceDetailScreen> {
             ),
           ),
 
-          // Thanh filter
+          // 🔵 FILTER CHIPS
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -117,9 +188,10 @@ class _AttendanceDetailScreenState extends State<AttendanceDetailScreen> {
               ],
             ),
           ),
+
           const SizedBox(height: 8),
 
-          // Danh sách chi tiết
+          // 🔵 STUDENT LIST
           Expanded(
             child: ListView.separated(
               itemCount: filtered.length,
@@ -130,7 +202,7 @@ class _AttendanceDetailScreenState extends State<AttendanceDetailScreen> {
                   leading: CircleAvatar(
                     backgroundColor: _statusColor(s["status"]),
                     child: Text(
-                      s["name"].toString()[0],
+                      s["name"][0],
                       style: const TextStyle(color: Colors.white),
                     ),
                   ),
@@ -143,13 +215,13 @@ class _AttendanceDetailScreenState extends State<AttendanceDetailScreen> {
                 );
               },
             ),
-          ),
+          )
         ],
       ),
     );
   }
 
-  // Chip filter
+  // 🔵 Filter chip widget
   Widget _buildFilterChip(String label, String value) {
     final bool selected = filter == value;
     return Padding(
@@ -158,15 +230,13 @@ class _AttendanceDetailScreenState extends State<AttendanceDetailScreen> {
         label: Text(label),
         selected: selected,
         onSelected: (_) {
-          setState(() {
-            filter = value;
-          });
+          setState(() => filter = value);
         },
       ),
     );
   }
 
-  // Text trạng thái
+  // 🔵 Status Text Mapping
   String _statusText(String status) {
     switch (status) {
       case "present":
@@ -176,13 +246,13 @@ class _AttendanceDetailScreenState extends State<AttendanceDetailScreen> {
       case "late":
         return "Đi muộn";
       case "excused":
-        return "Nghỉ có phép";
+        return "Có phép";
       default:
         return "Không rõ";
     }
   }
 
-  // Màu trạng thái
+  // 🔵 Status Colors
   Color _statusColor(String status) {
     switch (status) {
       case "present":
@@ -198,7 +268,7 @@ class _AttendanceDetailScreenState extends State<AttendanceDetailScreen> {
     }
   }
 
-  // Icon trạng thái
+  // 🔵 Status Icons
   IconData _statusIcon(String status) {
     switch (status) {
       case "present":
